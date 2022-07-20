@@ -1,0 +1,43 @@
+bgp:
+  advertiseMode: DEFAULT
+  asn: 65001
+  keepaliveInterval: 20
+bgpPeers:
+- bfd:
+    minReceiveInterval: 1000
+    minTransmitInterval: 1000
+    multiplier: 5
+    sessionInitializationMode: DISABLED
+  enable: 'TRUE'
+  enableIpv6: false
+  interfaceName: if-tunnel0-to-on-prem
+  ipAddress: 169.254.0.1
+  name: bgp-on-prem-tunnel0
+  peerAsn: 65002
+  peerIpAddress: 169.254.0.2
+- bfd:
+    minReceiveInterval: 1000
+    minTransmitInterval: 1000
+    multiplier: 5
+    sessionInitializationMode: DISABLED
+  enable: 'TRUE'
+  enableIpv6: false
+  interfaceName: if-tunnel1-to-on-prem
+  ipAddress: 169.254.1.1
+  name: bgp-on-prem-tunnel1
+  peerAsn: 65002
+  peerIpAddress: 169.254.1.2
+creationTimestamp: '2022-06-29T21:28:06.086-07:00'
+id: '3113384910846466233'
+interfaces:
+- ipRange: 169.254.0.1/30
+  linkedVpnTunnel: https://www.googleapis.com/compute/v1/projects/centered-flash-353712/regions/us-central1/vpnTunnels/cloud-vpc-tunnel0
+  name: if-tunnel0-to-on-prem
+- ipRange: 169.254.1.1/30
+  linkedVpnTunnel: https://www.googleapis.com/compute/v1/projects/centered-flash-353712/regions/us-central1/vpnTunnels/cloud-vpc-tunnel1
+  name: if-tunnel1-to-on-prem
+kind: compute#router
+name: cloud-vpc-router1
+network: https://www.googleapis.com/compute/v1/projects/centered-flash-353712/global/networks/cloud-vpc
+region: https://www.googleapis.com/compute/v1/projects/centered-flash-353712/regions/us-central1
+selfLink: https://www.googleapis.com/compute/v1/projects/centered-flash-353712/regions/us-central1/routers/cloud-vpc-router1
