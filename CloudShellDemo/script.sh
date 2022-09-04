@@ -11,8 +11,8 @@ echo ""
 echo ""
 echo "Creating a config for dev environment"
 gcloud config configurations create dev-config
-gcloud config set core/account edurekagcpbatch18062022@gmail.com
-gcloud config set core/project centered-flash-353712
+gcloud config set core/account <Enter your GCP Account email address>
+gcloud config set core/project <Enter your Project id>
 gcloud config set compute/region us-central1
 gcloud config set compute/zone us-central1-a
 
@@ -20,6 +20,11 @@ echo ""
 echo ""
 echo "Listing the configurations"
 gcloud config configurations list
+
+echo ""
+echo ""
+echo "Activating the configurations"
+gcloud config configurations activate dev-config
 
 echo ""
 echo ""
