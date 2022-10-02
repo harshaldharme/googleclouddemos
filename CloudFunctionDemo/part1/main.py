@@ -11,6 +11,6 @@ def send_mail(data, context):
         from_email='from@email.com',
         to_emails='to@email.com',
         subject='Subjectline',
-        html_content="Hello <strong>Harshal</strong>, <br/>The file which was uploaded to bucket: <strong>{}</strong> is <strong>{}</strong>.<br/>Thank You..!".format(data['bucket'], data['name'])
+        html_content="Hello <strong>Harshal</strong>, <br/>The file which was uploaded to <strong>{}</strong> is <strong>{}</strong>.<br/>Download Link: {} <br/>Thank You..!".format(data['bucket'], data['name'], data['mediaLink'])
     )
     response = sg.send(message)
