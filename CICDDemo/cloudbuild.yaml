@@ -2,11 +2,11 @@ steps:
 
 #Build and tag docker container
   - name: 'gcr.io/cloud-builders/docker'
-    args: [ 'build', '-t', 'gcr.io/gcp-cloud-service/todo-app', './app/']
+    args: [ 'build', '-t', 'gcr.io/<your-project-id>/todo-app', './app/']
 
 #Push Container to container registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: [ 'push', 'gcr.io/gcp-cloud-service/todo-app']
+    args: [ 'push', 'gcr.io/<your-project-id>/todo-app']
 
 #Deploy to cloud run
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -15,7 +15,7 @@ steps:
     - 'deploy'
     - 'cloudrunservice'
     - '--image'
-    - 'gcr.io/gcp-cloud-service/todo-app'
+    - 'gcr.io/<your-project-id>/todo-app'
     - '--region'
     - 'us-central1'
     - '--port'
@@ -24,4 +24,4 @@ steps:
     - 'managed'
     - '--allow-unauthenticated'
 images:
-  - 'gcr.io/gcp-cloud-service/todo-app'
+  - 'gcr.io/<your-project-id>/todo-app'
