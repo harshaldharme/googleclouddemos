@@ -1,13 +1,14 @@
 resource "google_compute_instance" "cloudstudy_vm" {
   name = "cloud-study-tf-vm"
   machine_type = "f1-micro"
-  zone = "us-central1-c"
+  zone = var.zone
   allow_stopping_for_update = true
 
   boot_disk {
     initialize_params {
     #   image = "debian-cloud/debian-11"
-    image = "cos-cloud/cos-stable"
+    # image = "cos-cloud/cos-stable"
+    image = var.os_image
     }
   }
   network_interface {

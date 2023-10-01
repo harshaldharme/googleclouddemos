@@ -1,6 +1,6 @@
 provider "google" {
-    project = "cloudstudy-131288"
-    credentials = "${file("credentials.json")}"
-    region = "us-central1"
-    zone = "us-central1-c"
+    project = var.project
+    credentials = file(var.credentials_file)
+    region = var.region
+    zone = var.zone
 }
