@@ -1,8 +1,8 @@
 resource "google_compute_instance" "cloudstudy_vm" {
-  name = "cloud-study-tf-vm"
-  machine_type = "f1-micro"
-  zone = var.zone
-  allow_stopping_for_update = true
+  name                      = "cloud-study-tf-vm"
+  machine_type              = var.vm_params[0]
+  zone                      = var.vm_params[1]
+  allow_stopping_for_update = var.vm_params[2]
 
   boot_disk {
     initialize_params {

@@ -17,3 +17,8 @@ variable "zone" {
 variable "os_image" {
   default = "debian-cloud/debian-11"
 }
+
+variable "vm_params" {
+  type = tuple([ string, string, bool ])
+  default = [ "f1-micro", "us-central1-c", true ]
+}
