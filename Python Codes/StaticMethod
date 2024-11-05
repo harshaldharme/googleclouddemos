@@ -1,0 +1,11 @@
+class MyClass:
+    @staticmethod
+    def static_method():
+        return "I am a static method"
+
+    @classmethod
+    def class_method(cls):
+        return f"I am a class method in {cls.__name__}"
+
+print(MyClass.static_method())    # Output: I am a static method
+print(MyClass.class_method())     # Output: I am a class method in MyClass
