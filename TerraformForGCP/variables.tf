@@ -37,3 +37,4 @@ variable "element_demo_vm_tags" {
   type    = list(string)
   default = ["first-tag", "second-tag"]
 }
+

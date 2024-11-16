@@ -9,3 +9,8 @@ module "bigquery" {
   source = "./BigQuery"
   # project = var.project
 }
+
+module "cloud_function" {
+  source = "./CloudFunction"
+  # project = var.project
+}
