@@ -4,3 +4,8 @@ provider "google" {
   region      = var.region
   zone        = var.zone
 }
+
+module "bigquery" {
+  source = "./BigQuery"
+  # project = var.project
+}
