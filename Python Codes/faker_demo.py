@@ -1,3 +1,6 @@
+# TODO: Need to run this code from cloudshell or any other prompt having gcloud library installed.
+# Install faker library then run it by passing the project_id, dataset_id and table_id parameters.
+
 from faker import Faker
 from google.cloud import bigquery
 
