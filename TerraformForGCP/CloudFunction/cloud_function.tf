@@ -7,7 +7,7 @@ resource "google_storage_bucket" "function_source_bucket" {
 resource "google_storage_bucket_object" "function_source_code" {
   name   = "function-source.zip"
   bucket = google_storage_bucket.function_source_bucket.name
-  source = "path/to/your/function-source.zip" # Path to your zipped function code
+  source = "./CloudFunction/function-source.zip" # Path to your zipped function code
 }
 
 resource "google_cloudfunctions_function" "delete_resources" {
@@ -46,9 +46,22 @@ resource "google_cloud_scheduler_job" "delete_resources_job" {
   }
 }
 
+# Create a Service Account for Cloud Scheduler
+resource "google_service_account" "cloud_scheduler_sa" {
+  account_id   = "cloudscheduler"
+  display_name = "Cloud Scheduler Service Account"
+  project      = var.project_id
+}
+
 # IAM Binding to allow Cloud Scheduler to invoke the function
 resource "google_project_iam_member" "scheduler_invoker" {
   project = var.project_id
   role    = "roles/cloudfunctions.invoker"
   member  = "serviceAccount:cloudscheduler@${var.project_id}.iam.gserviceaccount.com"
+}
+
+resource "google_project_iam_member" "artifact_registry_reader" {
+  project = var.project_id
+  role    = "roles/artifactregistry.reader"
+  member  = "serviceAccount:cloud-functions@${var.project_id}.iam.gserviceaccount.com"
 }
