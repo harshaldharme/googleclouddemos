@@ -38,3 +38,21 @@ variable "element_demo_vm_tags" {
   default = ["first-tag", "second-tag"]
 }
 
+variable "project_id" {
+  description = "Google Cloud project ID"
+}
+
+variable "function_name" {
+  description = "Name of the Cloud Function"
+  default     = "delete-resources-function"
+}
+
+variable "runtime" {
+  description = "Runtime for the Cloud Function"
+  default     = "python310"
+}
+
+variable "schedule" {
+  description = "Schedule for the Cloud Function"
+  default     = "0 2 * * *" # 2AM UTC daily
+}

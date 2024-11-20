@@ -1,67 +1,46 @@
-
-resource "google_storage_bucket" "function_source_bucket" {
-  name     = "function-source-bucket-delete-resources"
-  location = "US"
+variable "runtime" {
+  description = "Runtime for the Cloud Function"
 }
 
-resource "google_storage_bucket_object" "function_source_code" {
-  name   = "function-source.zip"
-  bucket = google_storage_bucket.function_source_bucket.name
-  source = "./CloudFunction/function-source.zip" # Path to your zipped function code
+variable "function_name" {
+  description = "Name of the Cloud Function"
 }
 
-resource "google_cloudfunctions_function" "delete_resources" {
-  name        = var.function_name
-  description = "Cloud Function to delete resources at 2AM every day"
-  runtime     = "python310"
-  entry_point = "delete_resources"
-
-  source_archive_bucket = google_storage_bucket.function_source_bucket.name
-  source_archive_object = google_storage_bucket_object.function_source_code.name
-  region                = var.function_region
-
-  environment_variables = {
-    PROJECT_ID = var.project_id
-  }
-
-  available_memory_mb = 256
-  timeout             = 60
-
-  # Trigger type: HTTP Trigger
-  trigger_http = true
+variable "bucket" {
+  description = "Source bucket name"
 }
 
-resource "google_cloud_scheduler_job" "delete_resources_job" {
-  name        = "delete-resources-job"
-  description = "Scheduler to trigger the Cloud Function every day at 2 AM"
-  schedule    = "0 2 * * *" # This is 2 AM every day
+variable "zip_object" {
+  description = "Source zip object"
+}
+
+variable "schedule" {
+  description = "Cron schedule for Cloud Scheduler"
+}
+
+resource "google_cloudfunctions_function" "http_function" {
+  name                  = var.function_name
+  runtime               = var.runtime
+  available_memory_mb   = 128
+  source_archive_bucket = var.bucket
+  source_archive_object = var.zip_object
+  entry_point           = "delete_resources"
+  trigger_http          = true
+  https_trigger_security_level = "SECURE_ALWAYS"
+}
+
+resource "google_cloud_scheduler_job" "function_schedule" {
+  name        = "${var.function_name}-schedule"
+  description = "Schedule to trigger the cloud function at 2 AM UTC"
+  schedule    = var.schedule
   time_zone   = "UTC"
 
   http_target {
-    uri = google_cloudfunctions_function.delete_resources.https_trigger_url
-    http_method = "POST"
-    headers = {
-      "Content-Type" = "application/json"
+    uri         = google_cloudfunctions_function.http_function.https_trigger_url
+    http_method = "GET"
+
+    oidc_token {
+      service_account_email = google_cloudfunctions_function.http_function.service_account_email
     }
   }
-}
-
-# Create a Service Account for Cloud Scheduler
-resource "google_service_account" "cloud_scheduler_sa" {
-  account_id   = "cloudscheduler"
-  display_name = "Cloud Scheduler Service Account"
-  project      = var.project_id
-}
-
-# IAM Binding to allow Cloud Scheduler to invoke the function
-resource "google_project_iam_member" "scheduler_invoker" {
-  project = var.project_id
-  role    = "roles/cloudfunctions.invoker"
-  member  = "serviceAccount:cloudscheduler@${var.project_id}.iam.gserviceaccount.com"
-}
-
-resource "google_project_iam_member" "artifact_registry_reader" {
-  project = var.project_id
-  role    = "roles/artifactregistry.reader"
-  member  = "serviceAccount:cloud-functions@${var.project_id}.iam.gserviceaccount.com"
 }

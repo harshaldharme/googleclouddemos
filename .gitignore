@@ -5,3 +5,9 @@ TerraformForGCP/.terraform.lock.hcl
 TerraformForGCP/.terraform/providers/registry.terraform.io/hashicorp/google/4.84.0/windows_amd64/terraform-provider-google_v4.84.0_x5.exe
 .terraform.tfstate.lock.info
 .terraform/
+TerraformForGCP/CloudFunction/delete_resources_function/*
+!TerraformForGCP/CloudFunction/delete_resources_function/main.py
+!TerraformForGCP/CloudFunction/delete_resources_function/requirements.txt
+../.DS_Store
+.DS_Store
+CloudFunction/.DS_Store

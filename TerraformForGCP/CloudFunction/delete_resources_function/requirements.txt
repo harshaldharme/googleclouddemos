@@ -1,0 +1,7 @@
+google-auth==2.14.1
+google-auth-oauthlib==0.4.6
+google-api-python-client==2.78.0
+google-cloud-storage==2.10.0
+google-cloud-compute==1.22.0
+google-cloud-bigquery==3.27.0  # Updated to the latest available version
+google-cloud-dataproc==3.1.0
