@@ -19,6 +19,7 @@ variable "schedule" {
 }
 
 resource "google_cloudfunctions_function" "http_function" {
+  count                 = 0
   name                  = var.function_name
   runtime               = var.runtime
   available_memory_mb   = 128
@@ -30,17 +31,18 @@ resource "google_cloudfunctions_function" "http_function" {
 }
 
 resource "google_cloud_scheduler_job" "function_schedule" {
+  count       = 0
   name        = "${var.function_name}-schedule"
   description = "Schedule to trigger the cloud function at 2 AM UTC"
   schedule    = var.schedule
   time_zone   = "UTC"
 
   http_target {
-    uri         = google_cloudfunctions_function.http_function.https_trigger_url
+    uri         = google_cloudfunctions_function.http_function[0].https_trigger_url
     http_method = "GET"
 
     oidc_token {
-      service_account_email = google_cloudfunctions_function.http_function.service_account_email
+      service_account_email = google_cloudfunctions_function.http_function[0].service_account_email
     }
   }
 }

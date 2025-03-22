@@ -2,6 +2,7 @@
 
 
 module "bigquery" {
+  count   = 0
   source  = "terraform-google-modules/bigquery/google"
   version = "~> 9.0"
 
